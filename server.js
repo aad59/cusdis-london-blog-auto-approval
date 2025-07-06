@@ -4,8 +4,6 @@ const app = express();
 
 app.use(express.json());
 
-const CUSDIS_API_TOKEN = process.env.CUSDIS_API_TOKEN;
-
 app.post('/webhook', async (req, res) => {
   const commentId = req.body.data?.id;
 
@@ -14,12 +12,12 @@ app.post('/webhook', async (req, res) => {
   }
 
   try {
+    // Attempt to approve the comment (this may not need an API token)
     await axios.post(
       'https://cusdis.com/api/comment/approve',
       { id: commentId },
       {
         headers: {
-          Authorization: `Bearer ${CUSDIS_API_TOKEN}`,
           'Content-Type': 'application/json'
         }
       }
